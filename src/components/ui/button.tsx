@@ -49,11 +49,13 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
       icon: 'h-10 w-10 rounded-xl justify-center',
     };
 
+    const isButtonDisabled = Boolean(disabled || isLoading);
+
     return (
       <button
         ref={ref}
         type={type}
-        disabled={disabled || isLoading}
+        disabled={isButtonDisabled ? true : undefined}
         className={cn(baseStyles, variants[variant], sizes[size], className)}
         {...props}
       >

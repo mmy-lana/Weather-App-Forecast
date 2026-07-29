@@ -9,8 +9,18 @@ import { WeatherChart } from '@/features/weather/components/weather-chart';
 import { ForecastList } from '@/features/weather/components/forecast-list';
 import { Button } from '@/components/ui/button';
 
+const emptySubscribe = () => () => {};
+
+function useHasMounted() {
+  return React.useSyncExternalStore(
+    emptySubscribe,
+    () => true,
+    () => false
+  );
+}
+
 export default function HomePage() {
-  const [hasMounted, setHasMounted] = React.useState<boolean>(false);
+  const hasMounted = useHasMounted();
 
   const {
     weather,
@@ -26,17 +36,13 @@ export default function HomePage() {
     refreshWeather,
   } = useWeather();
 
-  React.useEffect(() => {
-    setHasMounted(true);
-  }, []);
-
   const dynamicBg =
     weather?.current.condition.backgroundGradient ||
     'from-slate-900 via-indigo-950 to-slate-950';
 
   if (!hasMounted) {
     return (
-      <main className="min-h-screen w-full bg-gradient-to-br from-slate-900 via-indigo-950 to-slate-950 flex items-center justify-center p-4">
+      <main className="min-h-screen w-full bg-linear-to-br from-slate-900 via-indigo-950 to-slate-950 flex items-center justify-center p-4">
         <div className="flex flex-col items-center gap-3 text-white/70">
           <Loader2 className="h-8 w-8 animate-spin" />
           <p className="text-sm font-medium">Loading Atmosphere...</p>
@@ -47,9 +53,9 @@ export default function HomePage() {
 
   return (
     <main
-      className={`min-h-screen w-full bg-gradient-to-br ${dynamicBg} transition-all duration-700 ease-in-out p-4 md:p-8 lg:p-12 relative overflow-hidden`}
+      className={`min-h-screen w-full bg-linear-to-br ${dynamicBg} transition-all duration-700 ease-in-out p-4 md:p-8 lg:p-12 relative overflow-hidden`}
     >
-      {/* Dynamic Glassmorphic Ambient Background Orbs */}
+      {/* Dynamic Ambient Background Orbs */}
       <div className="absolute -top-40 -left-40 w-96 h-96 bg-sky-500/20 rounded-full blur-3xl pointer-events-none" />
       <div className="absolute top-1/2 -right-40 w-96 h-96 bg-purple-500/15 rounded-full blur-3xl pointer-events-none" />
 

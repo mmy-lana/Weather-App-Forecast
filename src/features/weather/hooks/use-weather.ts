@@ -71,13 +71,13 @@ export function useWeather() {
   );
 
   useEffect(() => {
-    if (!searchQuery.trim() || searchQuery.trim().length < 2) {
-      setSearchResults([]);
-      setIsSearching(false);
-      return;
-    }
-
     const timer = setTimeout(async () => {
+      if (!searchQuery.trim() || searchQuery.trim().length < 2) {
+        setSearchResults([]);
+        setIsSearching(false);
+        return;
+      }
+
       setIsSearching(true);
       try {
         const results = await searchLocations(searchQuery);
@@ -93,34 +93,38 @@ export function useWeather() {
   }, [searchQuery]);
 
   useEffect(() => {
-    if ('geolocation' in navigator) {
-      navigator.geolocation.getCurrentPosition(
-        (position) => {
-          loadWeather(
-            position.coords.latitude,
-            position.coords.longitude,
-            'Your Location',
-            ''
-          );
-        },
-        () => {
-          loadWeather(
-            DEFAULT_LOCATION.latitude,
-            DEFAULT_LOCATION.longitude,
-            DEFAULT_LOCATION.name,
-            DEFAULT_LOCATION.country
-          );
-        },
-        { timeout: 8000 }
-      );
-    } else {
-      loadWeather(
-        DEFAULT_LOCATION.latitude,
-        DEFAULT_LOCATION.longitude,
-        DEFAULT_LOCATION.name,
-        DEFAULT_LOCATION.country
-      );
-    }
+    const initializeLocation = () => {
+      if ('geolocation' in navigator) {
+        navigator.geolocation.getCurrentPosition(
+          (position) => {
+            loadWeather(
+              position.coords.latitude,
+              position.coords.longitude,
+              'Your Location',
+              ''
+            );
+          },
+          () => {
+            loadWeather(
+              DEFAULT_LOCATION.latitude,
+              DEFAULT_LOCATION.longitude,
+              DEFAULT_LOCATION.name,
+              DEFAULT_LOCATION.country
+            );
+          },
+          { timeout: 8000 }
+        );
+      } else {
+        loadWeather(
+          DEFAULT_LOCATION.latitude,
+          DEFAULT_LOCATION.longitude,
+          DEFAULT_LOCATION.name,
+          DEFAULT_LOCATION.country
+        );
+      }
+    };
+
+    initializeLocation();
   }, [loadWeather]);
 
   return {

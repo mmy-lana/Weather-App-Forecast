@@ -12,6 +12,7 @@ import {
   Legend,
   Filler,
   ChartOptions,
+  ScriptableContext,
 } from 'chart.js';
 import { Line } from 'react-chartjs-2';
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
@@ -54,7 +55,7 @@ export const WeatherChart: React.FC<WeatherChartProps> = ({
         data: temperatures,
         borderColor: 'rgba(255, 255, 255, 0.9)',
         borderWidth: 2,
-        backgroundColor: (context: any) => {
+        backgroundColor: (context: ScriptableContext<'line'>) => {
           const ctx = context.chart.ctx;
           const gradient = ctx.createLinearGradient(0, 0, 0, 200);
           gradient.addColorStop(0, 'rgba(255, 255, 255, 0.35)');

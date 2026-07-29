@@ -143,6 +143,10 @@ export async function fetchWeatherData(
     })),
   };
 
-  cache.set(cacheKey, { data: processedData, timestamp: Date.now() });
+cache.set(cacheKey, { data: processedData, timestamp: Date.now() });
   return processedData;
 }
+
+// Exported service aliases for route handlers and external callers
+export const fetchForecastByCoordinates = fetchWeatherData;
+export const fetchLocationSearchResults = searchLocations;

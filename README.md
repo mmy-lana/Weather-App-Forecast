@@ -52,7 +52,7 @@ src/
 ### 1. Clone & Install Dependencies
 
 ```bash
-git clone https://github.com/YOUR_USERNAME/weather-app.git
+git clone https://github.com/mmy-lana/weather-app.git
 cd weather-app
 npm install
 ```
